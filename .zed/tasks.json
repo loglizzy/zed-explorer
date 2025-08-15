@@ -6,9 +6,5 @@
   {
     "label": "Generate sourcemap",
     "command": "rojo sourcemap --watch --include-non-scripts --output sourcemap.json"
-  },
-  {
-    "label": "Build and open",
-    "command": "rojo build --output a.rbxl; open a.rbxl"
   }
 ]
