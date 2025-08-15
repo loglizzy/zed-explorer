@@ -1,0 +1,6 @@
+{
+  "aliases": {
+    "pkgs": "./src/pkgs",
+    "components": "./src/components"
+  }
+}

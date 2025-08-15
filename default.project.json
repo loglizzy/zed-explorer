@@ -1,0 +1,15 @@
+{
+  "name": "My Project",
+  "tree": {
+    "$className": "DataModel",
+    "src": {
+      "$path": "src"
+    },
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+      "stories": {
+        "$path": "stories"
+      }
+    }
+  }
+}
