@@ -7,7 +7,7 @@
     },
     "ReplicatedStorage": {
       "$className": "ReplicatedStorage",
-      "stories": {
+      "zed.storybook": {
         "$path": "stories"
       }
     }

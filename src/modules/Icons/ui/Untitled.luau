@@ -1196,7 +1196,7 @@ local icons = {
 local Processor = require(script.Parent.Parent.Processor)
 local Untitled = {
     icons = icons,
-    size = 32,
+    size = 24,
     image = "rbxassetid://137475077473068"
 }
 

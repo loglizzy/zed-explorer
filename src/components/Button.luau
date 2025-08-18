@@ -1,28 +1,53 @@
 local pkgs = game.src.pkgs
 local Fusion = require(pkgs.Fusion)
 local Children = Fusion.Children
+local OnEvent = Fusion.OnEvent
 
 local Theme = require(game.src.modules.Theme)
 local Untitled = require(game.src.modules.Icons.ui.Untitled)
 
+local style = TweenInfo.new(0.1, Enum.EasingStyle.Linear)
 return function(scope: Fusion.Scope, props: {
     label: string?,
     icon: Vector2?,
     disabled: boolean?,
-    background: boolean?
+    noBackground: boolean?
 })
     local label = props.label
     local icon = props.icon or Untitled.icons["cursor-click"]
     local disabled = props.disabled or false
-    local background = props.background or false
+    local noBackground = props.noBackground or false
+
+    local isHovered = scope:Value(false)
 
     return scope:New "ImageButton" {
         Name = "Controls",
         AutomaticSize = Enum.AutomaticSize.X,
-        BackgroundColor3 = Color3.fromRGB(66, 66, 66),
-        BackgroundTransparency = if background then if disabled then 0.5 else 0 else 1,
+        BackgroundColor3 = Theme.Colors.inputBackground,
+        BackgroundTransparency = scope:Tween(
+            scope:Computed(function(use)
+                local t = if noBackground then 1 else 0.5
+                t -= if use(isHovered) then 1 else 0
+
+                return t
+            end),
+            style
+        ),
         Active = not disabled,
-        Size = UDim2.new(0, 0, 0, 20),
+        Selectable = true,
+        Size = UDim2.new(0, 0, 0, 18),
+
+        [OnEvent("MouseEnter")] = function()
+            isHovered:set(true)
+        end,
+
+        [OnEvent("MouseLeave")] = function()
+            isHovered:set(false)
+        end,
+
+        [OnEvent("MouseButton1Click")] = function()
+
+        end,
 
         [Children] = {
             scope:New "UIPadding" {

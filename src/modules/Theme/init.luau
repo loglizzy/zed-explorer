@@ -1,7 +1,8 @@
 type ThemeColors = {
     background: Color3,
     inputBackground: Color3,
-    text: Color3
+    text: Color3,
+    separator: Color3,
 }
 
 local themes = script.themes

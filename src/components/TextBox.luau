@@ -5,12 +5,21 @@ local Children = Fusion.Children
 local Theme = require(game.src.modules.Theme)
 local Untitled = require(game.src.modules.Icons.ui.Untitled)
 
+local style = TweenInfo.new(.1, Enum.EasingStyle.Linear)
 return function(scope: Fusion.Scope, props: {
     clearOnFocus: boolean?,
     icon: Vector2?
 })
     local clearOnFocus = props.clearOnFocus or true
     local icon = props.icon
+
+    local isFocused = scope:Value(false)
+
+    local uiStroke = scope:New "UIStroke" {
+        Name = "UIStroke",
+        Color = Color3.fromRGB(85, 170, 255),
+        Enabled = false,
+    }
 
     local realInputBox = scope:New "TextBox" {
         Name = "Real",
@@ -27,11 +36,26 @@ return function(scope: Fusion.Scope, props: {
         TextColor3 = Color3.new(1, 1, 1),
         TextSize = 10,
         TextXAlignment = Enum.TextXAlignment.Left,
+
+        [Fusion.OnEvent("Focused")] = function()
+            uiStroke.Enabled = true
+            isFocused:set(true)
+        end,
+        [Fusion.OnEvent("FocusLost")] = function()
+            uiStroke.Enabled = false
+            isFocused:set(false)
+        end,
     }
 
     return scope:New "TextBox" {
         Name = "SearchBox",
-        BackgroundTransparency = 0,
+        BackgroundTransparency = scope:Tween(
+            scope:Computed(function(use)
+                local t = if use(isFocused) then 0 else 0.25
+                return t
+            end),
+            style
+        ),
         BackgroundColor3 = Theme.Colors.inputBackground,
         ClearTextOnFocus = clearOnFocus,
         CursorPosition = -1,
@@ -44,6 +68,14 @@ return function(scope: Fusion.Scope, props: {
         TextSize = 10,
         TextXAlignment = Enum.TextXAlignment.Left,
         ZIndex = 2,
+
+        [Fusion.OnEvent("MouseEnter")] = function()
+
+        end,
+
+        [Fusion.OnEvent("MouseLeave")] = function()
+
+        end,
 
         [Fusion.OnEvent("Focused")] = function()
             realInputBox:CaptureFocus()
@@ -58,16 +90,12 @@ return function(scope: Fusion.Scope, props: {
                 CornerRadius = UDim.new(0, 4),
             },
 
-            scope:New "UIStroke" {
-                Name = "UIStroke",
-                Color = Color3.fromRGB(85, 170, 255),
-                Enabled = false,
-            },
+            uiStroke,
 
             scope:New "UIPadding" {
                 Name = "UIPadding",
                 PaddingBottom = UDim.new(0, 1),
-                PaddingLeft = UDim.new(0, 3),
+                PaddingLeft = UDim.new(0, 0),
                 PaddingRight = UDim.new(0, 3),
                 PaddingTop = UDim.new(0, 1),
             },
@@ -84,6 +112,7 @@ return function(scope: Fusion.Scope, props: {
                         Padding = UDim.new(0, 4),
                         SortOrder = Enum.SortOrder.LayoutOrder,
                         VerticalAlignment = Enum.VerticalAlignment.Center,
+                        HorizontalFlex = Enum.UIFlexAlignment.Fill
                     },
 
                     realInputBox,
@@ -100,6 +129,7 @@ return function(scope: Fusion.Scope, props: {
                         Position = UDim2.new(0, 4, 0.5, 0),
                         Size = UDim2.new(1, -6, 1, -6),
                         SizeConstraint = Enum.SizeConstraint.RelativeYY,
+                        [Children] = scope:New("UIFlexItem") {}
                     },
 
                     scope:New "UIPadding" {

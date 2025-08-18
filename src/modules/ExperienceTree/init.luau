@@ -27,7 +27,7 @@ local function CreateInstanceData(instance: Instance)
 end
 
 local ExperienceTree = {}
-local function GetInstanceData(instance: Instance)
+function ExperienceTree.GetInstanceData(instance: Instance)
     local instanceData = dataCache[instance]
     if not instanceData then
         instanceData = CreateInstanceData(instance)
@@ -35,6 +35,8 @@ local function GetInstanceData(instance: Instance)
 
     return instanceData
 end
+
+
 
 for i, v in Root[1].lookup do
     local rootInstance = game:FindFirstChild(v)

@@ -13,7 +13,9 @@ local Untitled = require(game.src.modules.Icons.ui.Untitled)
 local ExperienceTree = require(game.src.modules.ExperienceTree)
 
 return function(scope: Fusion.Scope, props: {})
-    local searchBox = TextBox(scope, {})
+    local searchBox = TextBox(scope, {
+        icon = Untitled.icons["search-sm"]
+    })
     searchBox.LayoutOrder = 0
 
     return scope:New "Frame" {
@@ -34,6 +36,7 @@ return function(scope: Fusion.Scope, props: {})
 
             scope:New "UIPadding" {
                 Name = "UIPadding",
+                PaddingTop = UDim.new(0, 2),
             },
 
             scope:New("Frame") {
@@ -45,7 +48,7 @@ return function(scope: Fusion.Scope, props: {})
                         FillDirection = Enum.FillDirection.Horizontal,
                         HorizontalAlignment = Enum.HorizontalAlignment.Left,
                         HorizontalFlex = Enum.UIFlexAlignment.Fill,
-                        Padding = UDim.new(0, 2)
+                        Padding = UDim.new(0, 1)
                     },
 
                     scope:New("UIPadding") {
@@ -55,7 +58,8 @@ return function(scope: Fusion.Scope, props: {})
 
                     searchBox,
                     Button(scope, {
-                        icon = Untitled.icons["cursor-click"]
+                        icon = Untitled.icons["dots-horizontal"],
+                        noBackground = true
                     })
                 },
             },
