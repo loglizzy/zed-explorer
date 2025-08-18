@@ -3,76 +3,14 @@ local Fusion = require(pkgs.Fusion)
 local Children = Fusion.Children
 
 local components = game.src.components
-local Button = require(components.base.Button)
-local TextBox = require(components.base.TextBox)
-local Separator = require(components.base.Separator)
+local Button = require(components.Button)
+local TextBox = require(components.TextBox)
+local Separator = require(components.Separator)
 local VirtualScrollingFrame = require(components.VirtualScrollingFrame)
-local InstanceNode = require(components.InstanceNode)
 
-local Untitled = require(pkgs.Icons.ui.Untitled)
-local instanceIconPack = require(pkgs.Icons.instances.StudioNew)
-
-local dataCache = {}
-local function CreateInstanceData(instance: Instance)
-    local class = instance.ClassName
-    local instanceData = {
-        constructor = InstanceNode,
-        props = {
-            name = instance.Name,
-            class = class,
-            icon = instanceIconPack.icons[class],
-            instanceIconPack = instanceIconPack
-        }
-    }
-
-    dataCache[instance] = instanceData
-
-    return instanceData
-end
-
-local data = {}
-local function GetInstanceData(instance: Instance)
-    local instanceData = dataCache[instance]
-    if not instanceData then
-        instanceData = CreateInstanceData(instance)
-    end
-
-    return instanceData
-end
-
-local listedRootInstances = {
-    "Workspace",
-    "SoundService",
-    "Chat",
-    "Players",
-    "ReplicatedFirst",
-    "MaterialService",
-    "TextChatService",
-    "StarterPlayer",
-    "StarterPack",
-    "StarterGui",
-    "CoreGui",
-    "LocalizationService",
-    "VRService",
-    "PublishService",
-    "ReplicatedStorage",
-    "ServerScriptService",
-    "ServerStorage",
-    "PathfindingService",
-    "PluginGuiService",
-    "HapticService",
-    "Lighting",
-    "Teams",
-    "TestService",
-    "VoiceChatService",
-    "TextBoxService",
-    "UGCValidationService"
-}
-for i, v in listedRootInstances do
-    local rootInstance = game:FindFirstChild(v)
-    if not rootInstance then continue end
-    data[i] = CreateInstanceData(rootInstance)
-end
+local Theme = require(game.src.modules.Theme)
+local Untitled = require(game.src.modules.Icons.ui.Untitled)
+local ExperienceTree = require(game.src.modules.ExperienceTree)
 
 return function(scope: Fusion.Scope, props: {})
     local searchBox = TextBox(scope, {})
@@ -80,7 +18,7 @@ return function(scope: Fusion.Scope, props: {})
 
     return scope:New "Frame" {
         Name = "Explorer",
-        BackgroundColor3 = Color3.fromRGB(39, 39, 39),
+        BackgroundColor3 = Theme.Colors.background,
         BorderColor3 = Color3.fromRGB(34, 34, 34),
         BorderSizePixel = 0,
         Position = UDim2.fromScale(1, 0),
@@ -123,7 +61,7 @@ return function(scope: Fusion.Scope, props: {})
             },
             Separator(scope, {}),
             VirtualScrollingFrame(scope, {
-                data = data,
+                data = ExperienceTree,
                 childSizeY = 18
             })
         }

@@ -2,7 +2,8 @@ local pkgs = game.src.pkgs
 local Fusion = require(pkgs.Fusion)
 local Children = Fusion.Children
 
-local Untitled = require(pkgs.Icons.ui.Untitled)
+local Theme = require(game.src.modules.Theme)
+local Untitled = require(game.src.modules.Icons.ui.Untitled)
 
 return function(scope: Fusion.Scope, props: {
     clearOnFocus: boolean?,
@@ -31,7 +32,7 @@ return function(scope: Fusion.Scope, props: {
     return scope:New "TextBox" {
         Name = "SearchBox",
         BackgroundTransparency = 0,
-        BackgroundColor3 = Color3.new(.25, .25, .25),
+        BackgroundColor3 = Theme.Colors.inputBackground,
         ClearTextOnFocus = clearOnFocus,
         CursorPosition = -1,
         FontFace = Font.new("rbxasset://fonts/families/Ubuntu.json"),
@@ -39,7 +40,7 @@ return function(scope: Fusion.Scope, props: {
         PlaceholderColor3 = Color3.fromRGB(161, 161, 161),
         Size = UDim2.new(1, 0, 0, 18),
         Text = "",
-        TextColor3 = Color3.fromRGB(227, 227, 227),
+        TextColor3 = Theme.Colors.text,
         TextSize = 10,
         TextXAlignment = Enum.TextXAlignment.Left,
         ZIndex = 2,

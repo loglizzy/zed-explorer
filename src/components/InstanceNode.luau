@@ -2,7 +2,9 @@ local pkgs = game.src.pkgs
 local Fusion = require(pkgs.Fusion)
 local Children = Fusion.Children
 
-local Icons = pkgs.Icons
+local Theme = require(game.src.modules.Theme)
+
+local Icons = game.src.modules.Icons
 local Vanilla3UI = require(Icons.ui.Vanilla3UI)
 
 return function(scope: Fusion.Scope, props: {
@@ -87,7 +89,7 @@ return function(scope: Fusion.Scope, props: {
                 FontFace = Font.new("rbxasset://fonts/families/Ubuntu.json"),
                 Size = UDim2.fromScale(1, 1),
                 Text = props.name,
-                TextColor3 = Color3.fromRGB(227, 227, 227),
+                TextColor3 = Theme.Colors.text,
                 TextSize = 10,
                 TextWrapped = true,
                 TextXAlignment = Enum.TextXAlignment.Left,

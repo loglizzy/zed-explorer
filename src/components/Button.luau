@@ -2,7 +2,8 @@ local pkgs = game.src.pkgs
 local Fusion = require(pkgs.Fusion)
 local Children = Fusion.Children
 
-local Untitled = require(pkgs.Icons.ui.Untitled)
+local Theme = require(game.src.modules.Theme)
+local Untitled = require(game.src.modules.Icons.ui.Untitled)
 
 return function(scope: Fusion.Scope, props: {
     label: string?,
@@ -55,7 +56,7 @@ return function(scope: Fusion.Scope, props: {
                 FontFace = Font.new("rbxasset://fonts/families/Ubuntu.json"),
                 Size = UDim2.fromScale(0, 1),
                 Text = "Controls",
-                TextColor3 = Color3.new(1, 1, 1),
+                TextColor3 = Theme.Colors.text,
                 TextSize = 10,
                 Visible = if label then true else false
             },
