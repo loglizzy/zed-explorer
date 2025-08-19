@@ -6,9 +6,11 @@
 # Usage
 Not supposed to be used right now, so no release build for now, but you can still try it by cloning the repository, serving it with the **Rojo** command: `rojo serve`, and previewing the UI with the **UI Labs** plugin.
 
-# Features
-* Customizable themes
-* Different icon packs for instances
+# Todo
+- [ ] Properties panel
+- [ ] Settings
+- [x] Customizable themes
+- [x] Different icon packs for instances
 
 # Contributing
 The UI is made using the Fusion framework and the [UI Labs](https://ui-labs.luau.page/docs/getstarted) Plugin for previewing in Roblox Studio.
