@@ -1,6 +1,7 @@
 local pkgs = game.src.pkgs
 local Fusion = require(pkgs.Fusion)
 local Children = Fusion.Children
+local peek = Fusion.peek
 
 local Theme = require(game.src.modules.Theme)
 
@@ -10,20 +11,24 @@ local Vanilla3UI = require(Icons.ui.Vanilla3UI)
 return function(scope: Fusion.Scope, props: {
     name: string,
     icon: Vector2,
-    open: boolean?,
-    selected: boolean?,
+    isOpen: boolean?,
+    isSelected: boolean?,
+    experienceTree: {},
+    respectiveExperienceTreePos: number,
     instanceIconPack: {}
 })
-    local open = props.open or false
+    local isOpen = props.isOpen or scope:Value(false)
     local isHovered = scope:Value(false)
-    local selected = scope:Value(props.selected or false)
+    local isSelected = scope:Value(props.isSelected or false)
+    local experienceTree = props.experienceTree
+    local respectiveExperienceTreePos = props.respectiveExperienceTreePos
     local instanceIconPack = props.instanceIconPack
 
     return scope:New "ImageButton" {
         Name = "InstanceNode",
         BackgroundColor3 =   Color3.fromHex("#55aaff"),
         BackgroundTransparency = scope:Computed(function(use)
-            local t = if use(selected) then 0.5 else 1
+            local t = if use(isSelected) then 0.5 else 1
             t -= if use(isHovered) then 0.25 else 0
 
             return t
@@ -52,6 +57,15 @@ return function(scope: Fusion.Scope, props: {
                 Size = UDim2.fromScale(1, 1),
                 SizeConstraint = Enum.SizeConstraint.RelativeYY,
 
+                [Fusion.OnEvent("Activated")] = function()
+                    local newIsOpen = not peek(isOpen)
+                    isOpen:set(newIsOpen)
+                    if newIsOpen then
+                        local respectiveDataNode = experienceTree.data[respectiveExperienceTreePos]
+                        experienceTree:OpenInstanceDataNode(respectiveDataNode)
+                    end
+                end,
+
                 [Children] = {
                     scope:New "ImageLabel" {
                         Name = "Icon",
@@ -61,7 +75,9 @@ return function(scope: Fusion.Scope, props: {
                         ImageRectSize = Vanilla3UI.size,
                         Image = Vanilla3UI.image,
                         ImageTransparency = 0.2,
-                        ImageRectOffset = Vanilla3UI.icons[if open then "ArrowDown" else "ArrowRight"],
+                        ImageRectOffset = scope:Computed(function(use)
+                            return Vanilla3UI.icons[if use(isOpen) then "ArrowDown" else "ArrowRight"]
+                        end),
                         Position = UDim2.fromScale(0.5, 0.5),
                         Selectable = true,
                         Size = UDim2.new(1, -4, 1, -4),

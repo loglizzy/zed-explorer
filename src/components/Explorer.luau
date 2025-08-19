@@ -10,7 +10,16 @@ local VirtualScrollingFrame = require(components.VirtualScrollingFrame)
 
 local Theme = require(game.src.modules.Theme)
 local Untitled = require(game.src.modules.Icons.ui.Untitled)
-local ExperienceTree = require(game.src.modules.ExperienceTree)
+local ExperienceTree = require(game.src.modules.ExperienceTree).new()
+
+local Root = require(game.src.modules.ExperienceTree.Root)
+for i, v in Root[1].lookup do
+    local rootInstance = game:FindFirstChild(v)
+    if not rootInstance then continue end
+
+    local instanceData = ExperienceTree:CreateInstanceData(rootInstance, i)
+    table.insert(ExperienceTree.data, i, instanceData)
+end
 
 return function(scope: Fusion.Scope, props: {})
     local searchBox = TextBox(scope, {
@@ -65,7 +74,7 @@ return function(scope: Fusion.Scope, props: {})
             },
             Separator(scope, {}),
             VirtualScrollingFrame(scope, {
-                data = ExperienceTree,
+                data = ExperienceTree.data,
                 childSizeY = 18
             })
         }
