@@ -1,3 +1,5 @@
+**WIP!**
+
 # About
 **Zed** is roblox open source explorer made using the Fusion ui framework.
 
